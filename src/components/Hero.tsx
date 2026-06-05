@@ -1,167 +1,445 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { Bricolage_Grotesque } from "next/font/google";
+import { Power } from "lucide-react";
+
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 
 export default function Hero() {
+
+
+  const [active, setActive] = useState(false);
+
+
+  const ref = useRef(null);
+
+
+  // Scroll animation
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+
+
+  const width = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["65vw", "100vw"]
+  );
+
+
+  const height = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["42vh", "100vh"]
+  );
+
+
+  const radius = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["40px", "0px"]
+  );
+
+
+
+
+  // Magnetic button
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+
+  const x = useSpring(mouseX, {
+    stiffness: 180,
+    damping: 12,
+  });
+
+
+  const y = useSpring(mouseY, {
+    stiffness: 180,
+    damping: 12,
+  });
+
+
+
+  const moveButton = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+
+    const rect =
+      e.currentTarget.getBoundingClientRect();
+
+
+    const moveX =
+      e.clientX -
+      rect.left -
+      rect.width / 2;
+
+
+    const moveY =
+      e.clientY -
+      rect.top -
+      rect.height / 2;
+
+
+    mouseX.set(moveX * 0.5);
+    mouseY.set(moveY * 0.5);
+
+  };
+
+
+
+  const resetButton = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+
+
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-[#f5f5f7] overflow-hidden">
 
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-[#f3f4f6] to-[#e5e7eb]" />
+    <section
+      ref={ref}
+      className="
+      relative
+      h-[220vh]
+      bg-[#f8fafc]
+      "
+    >
 
 
-      {/* Blur Orbs */}
-      <div className="absolute w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-40 top-20 left-20" />
-      <div className="absolute w-80 h-80 bg-indigo-200 rounded-full blur-3xl opacity-40 bottom-20 right-20" />
-
-      {/* Floating Cards Left */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0,
-        }}
-        className="absolute left-10 top-24 bg-white shadow-2xl rounded-2xl p-5 w-64"
+      <div
+        className="
+        sticky
+        top-0
+        h-screen
+        overflow-hidden
+        flex
+        items-center
+        justify-center
+        "
       >
-        <p className="text-sm font-semibold">Transfer Email</p>
-        <div className="mt-4 space-y-2">
-          <div className="h-3 bg-gray-200 rounded" />
-          <div className="h-3 bg-gray-200 rounded w-4/5" />
-          <div className="h-3 bg-gray-200 rounded w-2/3" />
+
+
+        {/* GRID */}
+        <div
+          className="
+          absolute
+          inset-0
+          z-0
+          bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)]
+          bg-[size:20px_30px]
+          [mask-image:radial-gradient(ellipse_80%_70%_at_50%_0%,#000_60%,transparent_100%)]
+          "
+        />
+
+
+
+
+
+        {/* CONTENT */}
+        <div
+          className="
+          absolute
+          top-[18%]
+          z-10
+          w-full
+          px-4
+          "
+        >
+
+
+
+          {/* LOGO */}
+          <h1
+            className={`
+            ${bricolage.className}
+
+            text-[15vw]
+            font-extrabold
+            tracking-[-0.09em]
+            leading-none
+
+            flex
+            justify-center
+            items-center
+
+            text-black
+            select-none
+            `}
+          >
+
+
+            <span>M</span>
+
+
+            <span
+              className="
+              inline-flex
+              animate-spin
+              [animation-duration:6s]
+              "
+            >
+              O
+            </span>
+
+
+
+            <span>T</span>
+
+
+
+            <span
+              className="
+              inline-flex
+              animate-spin
+              [animation-duration:6s]
+              [animation-direction:reverse]
+              "
+            >
+              O
+            </span>
+
+
+
+            <span>MATI</span>
+
+
+
+
+            {/* ON */}
+            <span className="relative inline-flex">
+
+
+              {/* POWER BUTTON */}
+              <motion.button
+
+                style={{
+                  x,
+                  y,
+                }}
+
+                onMouseMove={moveButton}
+
+                onMouseLeave={resetButton}
+
+                onClick={() =>
+                  setActive(!active)
+                }
+
+
+                className={`
+                absolute
+
+                -top-14
+                left-1/2
+                -translate-x-1/2
+
+                w-14
+                h-14
+
+                rounded-full
+
+                flex
+                items-center
+                justify-center
+
+                overflow-hidden
+
+                text-white
+
+                shadow-xl
+
+                hover:scale-110
+
+                transition
+
+
+                ${
+                  active
+                  ? "bg-red-900"
+                  : "bg-black"
+                }
+
+                `}
+              >
+
+
+
+                {/* liquid hover */}
+                <div
+                  className="
+                  absolute
+                  inset-0
+
+                  rounded-full
+
+                  bg-white/30
+
+                  scale-0
+
+                  hover:scale-[2]
+
+                  transition-transform
+
+                  duration-500
+                  "
+                />
+
+
+
+                <Power
+                  size={28}
+                  className="
+                  relative
+                  z-10
+                  "
+                />
+
+
+              </motion.button>
+
+
+
+
+
+
+              <span
+
+                className={`
+                transition-all
+                duration-700
+
+
+                ${
+                  active
+                  ?
+                  "text-red-700"
+                  :
+                  "text-black"
+                }
+
+                `}
+              >
+
+                ON
+
+              </span>
+
+
+
+            </span>
+
+
+          </h1>
+
+
+
+
+
+
+
+          <p
+            className={`
+            ${bricolage.className}
+
+            mt-8
+
+            text-center
+
+            text-xl
+            md:text-2xl
+
+            text-gray-600
+            `}
+          >
+
+            Turn your automation ON.
+            Close deals while you sleep.
+
+          </p>
+
+
+
         </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, -15, 0] }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-        className="absolute left-20 bottom-28 bg-white shadow-xl rounded-2xl p-4 w-52"
-      >
-        <div className="h-3 bg-gray-200 rounded mb-2" />
-        <div className="h-3 bg-gray-200 rounded w-3/4" />
-      </motion.div>
-
-      {/* Floating Cards Right */}
-      <motion.div
-        animate={{ y: [0, -18, 0] }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.5,
-        }}
-        className="absolute right-16 top-32 bg-white shadow-2xl rounded-2xl p-4 w-56"
-      >
-        <div className="h-3 bg-gray-200 rounded mb-3" />
-        <div className="h-3 bg-gray-200 rounded w-2/3" />
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, -22, 0] }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.2,
-        }}
-        className="absolute right-10 bottom-32 bg-white shadow-xl rounded-2xl p-5 w-60"
-      >
-        <div className="h-3 bg-gray-200 rounded mb-2" />
-        <div className="h-3 bg-gray-200 rounded mb-2 w-4/5" />
-        <div className="h-3 bg-gray-200 rounded w-1/2" />
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, -14, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.8,
-        }}
-        className="absolute right-40 top-20 bg-white shadow-lg rounded-xl px-4 py-3 flex items-center gap-2"
-      >
-        <div className="w-3 h-3 bg-green-400 rounded-full" />
-        <span className="text-sm text-gray-600">Deal Closed</span>
-      </motion.div>
 
 
-     {/* Center Content */}
-<div className="relative text-center max-w-6xl px-6 z-10">
-  <motion.h1
-    initial={{ opacity: 0, y: 40 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="
-      text-5xl
-      sm:text-6xl
-      md:text-7xl
-      lg:text-8xl
-      font-extrabold
-      leading-[1.05]
-      text-black
-      tracking-tight
-    "
-  >
-    Forward,
-    <br />
-    <span className="relative inline-block">
-      <span className="absolute inset-0 bg-purple-200 -rotate-1 rounded-lg"></span>
-      <span className="relative px-4">Automate</span>
-    </span>{" "}
-    Close
-    <br />
-    your Deals
-  </motion.h1>
 
-  <motion.p
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 0.4 }}
-    className="
-      mt-6
-      text-sm
-      md:text-sm
-      lg:text-xl
-      text-gray-600
-      max-w-2xl
-      mx-auto
-      leading-relaxed
-    "
-  >
-    Turn any email into a deal. Let automation handle the follow-ups.
-    Close more deals with less work.
-  </motion.p>
 
-  <motion.button
-    initial={{ scale: 0.9 }}
-    animate={{ scale: 1 }}
-    transition={{ delay: 0.6 }}
-    className="
-      mt-10
-      px-10
-      py-5
-      text-lg
-      rounded-full
-      bg-gradient-to-r
-      from-purple-500
-      to-indigo-600
-      text-white
-      font-semibold
-      shadow-xl
-      hover:scale-105
-      transition-transform
-    "
-  >
-    Try Free for 7 Days
-  </motion.button>
-</div>
+
+
+        {/* VIDEO */}
+        <motion.div
+
+          style={{
+            width,
+            height,
+            borderRadius: radius,
+          }}
+
+          className="
+          absolute
+
+          bottom-[-150px]
+
+          z-20
+
+          overflow-hidden
+
+          bg-black
+
+          shadow-2xl
+          "
+        >
+
+
+          <video
+
+            src="/demo.mp4"
+
+            autoPlay
+
+            muted
+
+            loop
+
+            playsInline
+
+
+            className="
+            w-full
+            h-full
+            object-cover
+            "
+
+          />
+
+
+
+        </motion.div>
+
+
+
+
+      </div>
+
+
     </section>
+
   );
 }

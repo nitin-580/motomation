@@ -1,52 +1,124 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Bricolage_Grotesque } from "next/font/google";
+
+
+const bricolage = Bricolage_Grotesque({
+  subsets:["latin"],
+  weight:["400","500","600","700","800"]
+});
+
 
 export default function Navbar() {
   return (
+
     <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed top-6 left-1/2 -translate-x-1/2 
-      backdrop-blur-xl 
-      bg-white/70 
-      border border-gray-200 
-      rounded-full 
-      px-8 py-3 
-      flex gap-10 items-center 
-      z-40 
-      shadow-xl"
+
+      initial={{ y:-80, opacity:0 }}
+      animate={{ y:0, opacity:1 }}
+      transition={{ duration:.7 }}
+
+      className={`
+      ${bricolage.className}
+
+      fixed
+      top-8
+
+      left-1/2
+      -translate-x-1/2
+
+      w-[90%]
+      max-w-[1500px]
+
+      flex
+      items-center
+      justify-between
+
+      z-50
+      `}
     >
-      {/* Logo */}
-      <span className="font-semibold text-gray-900 tracking-wide">
-        <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-          Motomation
-        </span>
-      </span>
 
-      {/* Links */}
-      <div className="hidden md:flex gap-6 text-sm text-gray-600">
-        <span className="hover:text-black transition cursor-pointer">
-          Products
-        </span>
-        <span className="hover:text-black transition cursor-pointer">
-          Pricing
-        </span>
-        <span className="hover:text-black transition cursor-pointer">
-          Docs
-        </span>
+
+      {/* LOGO */}
+      <div
+        className="
+        text-xl
+        font-extrabold
+        tracking-tight
+        text-black
+        "
+      >
+        Motomation
       </div>
 
-      {/* Buttons */}
-      <div className="flex gap-3">
-        <button className="text-sm px-4 py-2 text-gray-700 hover:text-black transition">
-          Login
-        </button>
-        <button className="text-sm px-5 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full hover:scale-105 transition shadow-md">
-          Sign Up
-        </button>
+
+
+
+      {/* LINKS */}
+      <div
+        className="
+        hidden
+        md:flex
+
+        gap-16
+
+        text-[15px]
+
+        font-semibold
+
+        text-black
+        "
+      >
+
+        <span className="cursor-pointer hover:opacity-50 transition">
+          Work
+        </span>
+
+        <span className="cursor-pointer hover:opacity-50 transition">
+          Services
+        </span>
+
+        <span className="cursor-pointer hover:opacity-50 transition">
+          About
+        </span>
+
       </div>
+
+
+
+
+
+      {/* CTA */}
+      <button
+        className="
+        px-6
+        py-3
+
+        rounded-full
+
+        bg-black
+
+        text-white
+
+        text-sm
+
+        font-semibold
+
+
+        hover:scale-105
+
+        transition
+        "
+      >
+
+        Start Project
+
+      </button>
+
+
+
     </motion.nav>
+
   );
 }

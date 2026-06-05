@@ -1,75 +1,378 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { Bricolage_Grotesque } from "next/font/google";
 
-const features = [
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+
+const works = [
   {
-    title: "Setup in minutes, not days",
-    desc: "Quickly connect and start tracking products without complex configuration.",
+    title: "AI Automation",
+    desc: "Custom AI workflows that save hundreds of hours.",
+    type: "video",
+    src: "/work1.mp4",
   },
+
   {
-    title: "Absolutely no training required.",
-    desc: "Intuitive automation that works seamlessly without learning curves.",
+    title: "SaaS Platform",
+    desc: "Full stack scalable web applications.",
+    type: "image",
+    src: "/work2.png",
   },
+
   {
-    title: "Integrates with your workflow",
-    desc: "Designed to blend into your existing system without disruption.",
+    title: "Growth Systems",
+    desc: "Automated sales and marketing engines.",
+    type: "image",
+    src: "/work3.png",
   },
 ];
 
-export default function FeatureCards() {
-  return (
-    <section className="py-32 px-6 bg-[#f5f5f7]">
-      <div className="max-w-6xl mx-auto">
 
-        {/* Section Heading */}
-        <div className="mb-20">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight text-black max-w-3xl">
-            Fast, Simple, and Seamlessly{" "}
-            <span className="relative inline-block">
-              <span className="absolute inset-0 bg-purple-200 -rotate-1 rounded-md"></span>
-              <span className="relative px-2">Integrated</span>
-            </span>
-          </h2>
-        </div>
 
-        {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="
-                bg-white
-                rounded-3xl
-                p-10
-                shadow-md
-                border border-gray-100
-                hover:shadow-xl
-                hover:-translate-y-2
-                transition-all
-                duration-300
-              "
-            >
-              {/* Fake UI Illustration Placeholder */}
-              <div className="mb-8 h-36 bg-gray-100 rounded-2xl flex items-center justify-center">
-                <div className="w-24 h-4 bg-gray-300 rounded mb-2"></div>
-              </div>
+export default function Work() {
 
-              <h3 className="text-xl font-bold text-black">
-                {feature.title}
-              </h3>
 
-              <p className="mt-4 text-gray-500 text-sm leading-relaxed">
-                {feature.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+return (
+
+<section
+className="
+min-h-screen
+bg-[#f8fafc]
+px-6
+py-28
+overflow-hidden
+"
+>
+
+
+{/* TITLE */}
+<h2
+className={`
+${bricolage.className}
+
+text-center
+
+text-[15vw]
+
+font-extrabold
+
+tracking-[-0.09em]
+
+leading-none
+
+text-black
+`}
+>
+
+WORK
+
+</h2>
+
+
+
+
+
+
+
+{/* WORK CARDS */}
+<div
+className="
+relative
+
+mt-24
+
+h-[850px]
+
+max-w-7xl
+
+mx-auto
+"
+>
+
+
+{works.map((item,index)=>(
+
+
+<div
+
+key={index}
+
+
+className={`
+group
+
+absolute
+
+overflow-hidden
+
+rounded-[45px]
+
+bg-black
+
+shadow-2xl
+
+cursor-pointer
+
+
+transition-all
+
+duration-700
+
+
+hover:scale-105
+
+
+
+${
+index===0 &&
+`
+left-0
+top-32
+
+w-[34%]
+
+aspect-square
+
+rotate-[-6deg]
+
+hover:rotate-0
+`
+}
+
+
+${
+index===1 &&
+`
+left-1/2
+
+-top-5
+
+-translate-x-1/2
+
+w-[42%]
+
+aspect-square
+
+z-20
+`
+}
+
+
+${
+index===2 &&
+`
+right-0
+
+top-52
+
+w-[34%]
+
+aspect-square
+
+rotate-[6deg]
+
+hover:rotate-0
+`
+}
+
+
+`}
+
+>
+
+
+
+
+
+{/* MEDIA */}
+
+{
+
+item.type==="video"
+
+?
+
+<video
+
+src={item.src}
+
+autoPlay
+
+muted
+
+loop
+
+playsInline
+
+
+className="
+absolute
+
+inset-0
+
+w-full
+
+h-full
+
+object-cover
+
+
+transition-all
+
+duration-700
+
+
+group-hover:opacity-0
+
+group-hover:scale-125
+"
+
+/>
+
+
+:
+
+<img
+
+src={item.src}
+
+alt={item.title}
+
+className="
+absolute
+
+inset-0
+
+w-full
+
+h-full
+
+object-cover
+
+
+transition-all
+
+duration-700
+
+
+group-hover:opacity-0
+
+group-hover:scale-125
+"
+
+/>
+
+}
+
+
+
+
+
+
+
+{/* HOVER CONTENT */}
+<div
+className="
+absolute
+
+inset-0
+
+bg-black
+
+
+flex
+
+flex-col
+
+items-center
+
+justify-center
+
+
+text-center
+
+
+px-10
+
+
+opacity-0
+
+
+group-hover:opacity-100
+
+
+transition-all
+
+duration-700
+"
+>
+
+
+
+<h3
+
+className={`
+${bricolage.className}
+
+text-5xl
+
+font-bold
+
+text-white
+`}
+
+>
+
+{item.title}
+
+</h3>
+
+
+
+
+
+<p
+
+className="
+mt-5
+
+text-xl
+
+text-white/60
+
+max-w-md
+"
+
+>
+
+{item.desc}
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+))}
+
+
+
+</div>
+
+
+
+</section>
+
+)
+
 }
