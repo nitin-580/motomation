@@ -19,10 +19,128 @@ const bricolage = Bricolage_Grotesque({
 });
 
 
+// premium colors
+const colors=[
+"#8B5CF6",
+"#6366F1",
+"#06B6D4",
+"#14B8A6",
+"#F43F5E",
+"#F59E0B"
+];
+
+
+
+function LivingGrid({active}:{active:boolean}){
+
+
+const cells=Array.from({length:1800});
+
+
+return(
+
+<div
+className="
+absolute
+inset-0
+grid
+grid-cols-[repeat(60,1fr)]
+z-0
+"
+>
+
+
+{cells.map((_,i)=>(
+
+
+<motion.div
+
+key={i}
+
+
+animate={
+active
+?
+{
+
+backgroundColor:
+colors[
+Math.floor(Math.random()*colors.length)
+],
+
+boxShadow:[
+"0px 0px 0px transparent",
+"0px 0px 25px rgba(255,255,255,.9)",
+"0px 0px 0px transparent"
+],
+
+scale:[
+1,
+1.35,
+1
+],
+
+x:[
+0,
+Math.random()*8-4,
+0
+],
+
+y:[
+0,
+Math.random()*8-4,
+0
+]
+
+}
+
+:
+
+{
+backgroundColor:"#f8fafc",
+boxShadow:"0 0 0 transparent",
+scale:1,
+x:0,
+y:0
+}
+
+}
+
+
+transition={{
+duration:1.2,
+delay:Math.random()*0.8,
+ease:"easeInOut"
+}}
+
+
+className="
+border
+border-slate-200/70
+"
+/>
+
+
+))}
+
+
+</div>
+
+)
+
+}
+
+
+
+
+
+
+
 export default function Hero(){
 
 
 const [active,setActive]=useState(false);
+
 
 const ref=useRef(null);
 
@@ -57,7 +175,7 @@ scrollYProgress,
 
 
 
-// magnetic button
+
 
 const mouseX=useMotionValue(0);
 const mouseY=useMotionValue(0);
@@ -76,13 +194,12 @@ damping:12
 
 
 
-const moveButton=(
+
+function moveButton(
 e:React.MouseEvent<HTMLButtonElement>
-)=>{
+){
 
-
-const rect=
-e.currentTarget.getBoundingClientRect();
+const rect=e.currentTarget.getBoundingClientRect();
 
 
 mouseX.set(
@@ -94,13 +211,21 @@ mouseY.set(
 (e.clientY-rect.top-rect.height/2)*0.5
 );
 
-};
+}
 
 
-const resetButton=()=>{
-mouseX.set(0);
-mouseY.set(0);
-};
+
+function activateSystem(){
+
+setActive(true);
+
+setTimeout(()=>{
+setActive(false);
+},3000)
+
+}
+
+
 
 
 
@@ -111,9 +236,9 @@ return(
 <>
 
 
-{/* HERO + VIDEO */}
 <section
 ref={ref}
+
 className="
 relative
 h-[220vh]
@@ -122,14 +247,12 @@ bg-[#f8fafc]
 >
 
 
-
 <div
 className="
 sticky
 top-0
 h-screen
 overflow-hidden
-
 flex
 items-center
 justify-center
@@ -138,24 +261,15 @@ justify-center
 
 
 
-{/* grid */}
-<div
-className="
-absolute
-inset-0
 
-bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)]
-
-bg-[size:20px_30px]
-"
-/>
+<LivingGrid active={active}/>
 
 
 
 
 
 
-{/* LOGO CONTENT */}
+
 <div
 className="
 absolute
@@ -166,6 +280,8 @@ w-full
 >
 
 
+
+{/* LOGO */}
 <h1
 
 className={`
@@ -184,7 +300,19 @@ justify-center
 items-center
 
 select-none
-text-black
+
+transition-all
+duration-700
+
+
+${
+active
+?
+"text-white/30 backdrop-blur-xl drop-shadow-[0_10px_40px_rgba(255,255,255,.8)]"
+:
+"text-black"
+}
+
 `}
 >
 
@@ -192,12 +320,11 @@ text-black
 <span>m</span>
 
 
-<span
-className="
+
+<span className="
 animate-spin
 [animation-duration:6s]
-"
->
+">
 O
 </span>
 
@@ -206,13 +333,11 @@ O
 <span>t</span>
 
 
-<span
-className="
+<span className="
 animate-spin
 [animation-duration:6s]
 [animation-direction:reverse]
-"
->
+">
 O
 </span>
 
@@ -227,54 +352,56 @@ O
 
 <motion.button
 
-style={{
-x,
-y
-}}
+style={{x,y}}
 
 onMouseMove={moveButton}
 
-onMouseLeave={resetButton}
+onMouseLeave={()=>{
+mouseX.set(0);
+mouseY.set(0);
+}}
 
-onClick={()=>setActive(!active)}
+onClick={activateSystem}
 
 
 className={`
 absolute
 
 -top-14
-
 left-1/2
-
 -translate-x-1/2
-
 
 w-14
 h-14
 
-
 rounded-full
-
 
 flex
 items-center
 justify-center
 
-
 text-white
 
-shadow-xl
+transition-all
 
 
-${active?"bg-red-900":"bg-black"}
+${
+active
+?
+"bg-white/20 backdrop-blur-xl shadow-[0_0_60px_white]"
+:
+"bg-black"
+}
 
 `}
-
 >
+
 
 <Power size={28}/>
 
+
 </motion.button>
+
 
 
 
@@ -282,9 +409,9 @@ ${active?"bg-red-900":"bg-black"}
 className={
 active
 ?
-"text-red-700 transition"
+"text-white/50"
 :
-"text-black transition"
+"text-black"
 }
 >
 
@@ -293,7 +420,9 @@ on
 </span>
 
 
+
 </span>
+
 
 
 
@@ -305,7 +434,6 @@ on
 
 
 <p
-
 className={`
 ${bricolage.className}
 
@@ -315,7 +443,15 @@ text-center
 
 text-xl
 
-text-gray-600
+transition
+
+${
+active
+?
+"text-white"
+:
+"text-gray-600"
+}
 `}
 >
 
@@ -334,7 +470,8 @@ Close deals while you sleep.
 
 
 
-{/* VIDEO */}
+
+
 <motion.div
 
 style={{
@@ -343,18 +480,12 @@ height,
 borderRadius:radius
 }}
 
-
 className="
 absolute
-
 bottom-[-150px]
-
 z-20
-
 overflow-hidden
-
 bg-black
-
 shadow-2xl
 "
 >
@@ -365,30 +496,26 @@ shadow-2xl
 src="/demo.mp4"
 
 autoPlay
-
 muted
-
 loop
-
 playsInline
 
 className="
 w-full
 h-full
-
 object-cover
 "
 
 />
 
 
-
 </motion.div>
 
 
 
-</div>
 
+
+</div>
 
 
 </section>
@@ -400,28 +527,17 @@ object-cover
 
 
 
-
-{/* TEXT SECTION AFTER VIDEO */}
 <section
 
 className="
 min-h-screen
-
 bg-[#f8fafc]
-
 flex
-
 items-center
-
 px-8
-
 md:px-24
 "
 >
-
-
-
-<div>
 
 
 <h2
@@ -430,7 +546,6 @@ className={`
 ${bricolage.className}
 
 text-5xl
-
 md:text-8xl
 
 font-normal
@@ -443,46 +558,17 @@ text-black
 `}
 >
 
-
 We design automations
 <br/>
-
 that move businesses
 <br/>
-
 without moving people.
-
 
 </h2>
 
 
-
-
-
-
-<p
-
-className="
-mt-10
-
-max-w-2xl
-
-text-xl
-
-leading-relaxed
-
-text-black/50
-"
->
-
-</p>
-
-
-
-</div>
-
-
 </section>
+
 
 
 </>
