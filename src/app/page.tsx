@@ -8,6 +8,15 @@ import FeatureCards from "@/components/FeatureCards";
 import Footer from "@/components/Footer";
 import VideoReveal from "@/components/VideoReveal";
 import Companies from "@/components/MovingCompanies";
+import { Section } from "lucide-react";
+import PatternSection from "@/components/Section";
+import FAQ from "@/components/Faq";
+import Services from "@/components/OurServices";
+import Testimonials from "@/components/Testimonial";
+import Process from "@/components/Process";
+import ProblemSolution from "@/components/ProblemSolution";
+import { Agent } from "http";
+import Agents from "@/components/AIagent";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -26,7 +35,14 @@ export default function Home() {
       <Navbar />
       <Hero />
       <FeatureCards />
+      <ProblemSolution />
+      <PatternSection />
+      <Agents />
       <Companies />
+      <Process />
+      <Services />
+      <Testimonials />
+      <FAQ />
       <Footer />
     </>
   );

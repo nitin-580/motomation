@@ -1,61 +1,69 @@
 "use client";
 
 import { Bricolage_Grotesque } from "next/font/google";
+import { ArrowUpRight } from "lucide-react";
 
 
 const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  subsets:["latin"],
+  weight:["400","500","600","700","800"],
 });
 
 
 const works = [
-  {
-    title: "AI Automation",
-    desc: "Custom AI workflows that save hundreds of hours.",
-    type: "video",
-    src: "/work1.mp4",
-  },
 
-  {
-    title: "SaaS Platform",
-    desc: "Full stack scalable web applications.",
-    type: "image",
-    src: "/work2.png",
-  },
+{
+title:"AI Automation",
+desc:"AI workflows that remove repetitive tasks and scale teams.",
+src:"/work1.mp4",
+type:"video",
+link:"#"
+},
 
-  {
-    title: "Growth Systems",
-    desc: "Automated sales and marketing engines.",
-    type: "image",
-    src: "/work3.png",
-  },
+{
+title:"CRM Systems",
+desc:"Custom sales systems that close more deals.",
+src:"/work2.png",
+type:"image",
+link:"#"
+},
+
+{
+title:"Business Operating System",
+desc:"Complete automation infrastructure built for modern companies.",
+src:"/work3.png",
+type:"image",
+link:"#"
+},
+
 ];
 
 
 
-export default function Work() {
+
+export default function Work(){
 
 
-return (
+return(
 
 <section
+
 className="
 min-h-screen
 bg-[#f8fafc]
+
 px-6
 py-28
-overflow-hidden
 "
 >
 
 
 {/* TITLE */}
+
 <h2
+
 className={`
 ${bricolage.className}
-
-text-center
 
 text-[15vw]
 
@@ -79,34 +87,117 @@ WORK
 
 
 
-{/* WORK CARDS */}
+{/* GRID */}
 <div
+
 className="
-relative
-
-mt-24
-
-h-[850px]
+mt-20
 
 max-w-7xl
 
 mx-auto
+
+
+grid
+
+grid-cols-1
+lg:grid-cols-2
+
+gap-8
+
+h-[750px]
 "
 >
 
 
-{works.map((item,index)=>(
 
 
+
+{/* LEFT STACK */}
 <div
+
+className="
+grid
+
+grid-rows-2
+
+gap-8
+"
+>
+
+
+
+{works.slice(0,2).map((item,index)=>(
+
+
+<Card
 
 key={index}
 
+item={item}
+
+/>
+
+
+))}
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{/* RIGHT BIG */}
+<Card
+
+item={works[2]}
+
+big
+
+/>
+
+
+
+
+
+</div>
+
+
+</section>
+
+)
+
+}
+
+
+
+
+
+
+
+
+function Card({
+
+item,
+big=false
+
+}:any){
+
+
+
+return(
+
+<div
 
 className={`
 group
 
-absolute
+relative
 
 overflow-hidden
 
@@ -114,75 +205,13 @@ rounded-[45px]
 
 bg-black
 
-shadow-2xl
-
 cursor-pointer
 
+shadow-xl
 
-transition-all
-
-duration-700
-
-
-hover:scale-105
-
-
-
-${
-index===0 &&
-`
-left-0
-top-32
-
-w-[34%]
-
-aspect-square
-
-rotate-[-6deg]
-
-hover:rotate-0
-`
-}
-
-
-${
-index===1 &&
-`
-left-1/2
-
--top-5
-
--translate-x-1/2
-
-w-[42%]
-
-aspect-square
-
-z-20
-`
-}
-
-
-${
-index===2 &&
-`
-right-0
-
-top-52
-
-w-[34%]
-
-aspect-square
-
-rotate-[6deg]
-
-hover:rotate-0
-`
-}
-
+${big ? "h-full" : ""}
 
 `}
-
 >
 
 
@@ -212,26 +241,21 @@ playsInline
 
 className="
 absolute
-
 inset-0
 
 w-full
-
 h-full
 
 object-cover
 
-
 transition-all
-
 duration-700
 
 
 group-hover:opacity-0
 
-group-hover:scale-125
+group-hover:scale-110
 "
-
 />
 
 
@@ -241,30 +265,22 @@ group-hover:scale-125
 
 src={item.src}
 
-alt={item.title}
-
 className="
 absolute
-
 inset-0
 
 w-full
-
 h-full
 
 object-cover
 
-
 transition-all
-
 duration-700
-
 
 group-hover:opacity-0
 
-group-hover:scale-125
+group-hover:scale-110
 "
-
 />
 
 }
@@ -276,7 +292,9 @@ group-hover:scale-125
 
 
 {/* HOVER CONTENT */}
+
 <div
+
 className="
 absolute
 
@@ -289,29 +307,27 @@ flex
 
 flex-col
 
-items-center
-
-justify-center
+justify-between
 
 
-text-center
-
-
-px-10
+p-10
 
 
 opacity-0
-
 
 group-hover:opacity-100
 
 
 transition-all
 
-duration-700
+duration-500
 "
 >
 
+
+
+
+<div>
 
 
 <h3
@@ -319,13 +335,16 @@ duration-700
 className={`
 ${bricolage.className}
 
-text-5xl
+text-4xl
 
-font-bold
+md:text-6xl
+
+font-semibold
+
+tracking-[-0.05em]
 
 text-white
 `}
-
 >
 
 {item.title}
@@ -335,19 +354,17 @@ text-white
 
 
 
-
 <p
 
 className="
 mt-5
 
-text-xl
-
-text-white/60
-
 max-w-md
-"
 
+text-white/50
+
+text-lg
+"
 >
 
 {item.desc}
@@ -355,23 +372,53 @@ max-w-md
 </p>
 
 
+</div>
+
+
+
+
+
+
+
+<a
+
+href={item.link}
+
+
+className="
+flex
+
+items-center
+
+gap-2
+
+
+text-white
+
+text-lg
+
+font-medium
+"
+>
+
+View Project
+
+<ArrowUpRight size={22}/>
+
+
+</a>
+
+
+
 
 </div>
 
 
 
-</div>
-
-
-))}
 
 
 
 </div>
-
-
-
-</section>
 
 )
 

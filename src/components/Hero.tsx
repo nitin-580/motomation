@@ -14,432 +14,479 @@ import {
 
 
 const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  subsets:["latin"],
+  weight:["400","500","600","700","800"],
 });
 
 
-export default function Hero() {
+export default function Hero(){
 
 
-  const [active, setActive] = useState(false);
+const [active,setActive]=useState(false);
 
+const ref=useRef(null);
 
-  const ref = useRef(null);
 
 
-  // Scroll animation
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+const {scrollYProgress}=useScroll({
+target:ref,
+offset:["start start","end end"]
+});
 
 
-  const width = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["65vw", "100vw"]
-  );
 
+const width=useTransform(
+scrollYProgress,
+[0,1],
+["65vw","100vw"]
+);
 
-  const height = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["42vh", "100vh"]
-  );
 
+const height=useTransform(
+scrollYProgress,
+[0,1],
+["42vh","100vh"]
+);
 
-  const radius = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["40px", "0px"]
-  );
 
+const radius=useTransform(
+scrollYProgress,
+[0,1],
+["40px","0px"]
+);
 
 
 
-  // Magnetic button
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+// magnetic button
 
+const mouseX=useMotionValue(0);
+const mouseY=useMotionValue(0);
 
-  const x = useSpring(mouseX, {
-    stiffness: 180,
-    damping: 12,
-  });
 
+const x=useSpring(mouseX,{
+stiffness:180,
+damping:12
+});
 
-  const y = useSpring(mouseY, {
-    stiffness: 180,
-    damping: 12,
-  });
 
+const y=useSpring(mouseY,{
+stiffness:180,
+damping:12
+});
 
 
-  const moveButton = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
 
-    const rect =
-      e.currentTarget.getBoundingClientRect();
+const moveButton=(
+e:React.MouseEvent<HTMLButtonElement>
+)=>{
 
 
-    const moveX =
-      e.clientX -
-      rect.left -
-      rect.width / 2;
+const rect=
+e.currentTarget.getBoundingClientRect();
 
 
-    const moveY =
-      e.clientY -
-      rect.top -
-      rect.height / 2;
+mouseX.set(
+(e.clientX-rect.left-rect.width/2)*0.5
+);
 
 
-    mouseX.set(moveX * 0.5);
-    mouseY.set(moveY * 0.5);
+mouseY.set(
+(e.clientY-rect.top-rect.height/2)*0.5
+);
 
-  };
+};
 
 
+const resetButton=()=>{
+mouseX.set(0);
+mouseY.set(0);
+};
 
-  const resetButton = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
 
 
 
 
-  return (
+return(
 
-    <section
-      ref={ref}
-      className="
-      relative
-      h-[220vh]
-      bg-[#f8fafc]
-      "
-    >
+<>
 
 
-      <div
-        className="
-        sticky
-        top-0
-        h-screen
-        overflow-hidden
-        flex
-        items-center
-        justify-center
-        "
-      >
+{/* HERO + VIDEO */}
+<section
+ref={ref}
+className="
+relative
+h-[220vh]
+bg-[#f8fafc]
+"
+>
 
 
-        {/* GRID */}
-        <div
-          className="
-          absolute
-          inset-0
-          z-0
-          bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)]
-          bg-[size:20px_30px]
-          [mask-image:radial-gradient(ellipse_80%_70%_at_50%_0%,#000_60%,transparent_100%)]
-          "
-        />
 
+<div
+className="
+sticky
+top-0
+h-screen
+overflow-hidden
 
+flex
+items-center
+justify-center
+"
+>
 
 
 
-        {/* CONTENT */}
-        <div
-          className="
-          absolute
-          top-[18%]
-          z-10
-          w-full
-          px-4
-          "
-        >
+{/* grid */}
+<div
+className="
+absolute
+inset-0
 
+bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)]
 
+bg-[size:20px_30px]
+"
+/>
 
-          {/* LOGO */}
-          <h1
-            className={`
-            ${bricolage.className}
 
-            text-[15vw]
-            font-extrabold
-            tracking-[-0.09em]
-            leading-none
 
-            flex
-            justify-center
-            items-center
 
-            text-black
-            select-none
-            `}
-          >
 
 
-            <span>M</span>
+{/* LOGO CONTENT */}
+<div
+className="
+absolute
+top-[18%]
+z-10
+w-full
+"
+>
 
 
-            <span
-              className="
-              inline-flex
-              animate-spin
-              [animation-duration:6s]
-              "
-            >
-              O
-            </span>
+<h1
 
+className={`
+${bricolage.className}
 
+text-[15vw]
 
-            <span>T</span>
+font-extrabold
 
+tracking-[-0.09em]
 
+leading-none
 
-            <span
-              className="
-              inline-flex
-              animate-spin
-              [animation-duration:6s]
-              [animation-direction:reverse]
-              "
-            >
-              O
-            </span>
+flex
+justify-center
+items-center
 
+select-none
+text-black
+`}
+>
 
 
-            <span>MATI</span>
+<span>m</span>
 
 
+<span
+className="
+animate-spin
+[animation-duration:6s]
+"
+>
+O
+</span>
 
 
-            {/* ON */}
-            <span className="relative inline-flex">
 
+<span>t</span>
 
-              {/* POWER BUTTON */}
-              <motion.button
 
-                style={{
-                  x,
-                  y,
-                }}
+<span
+className="
+animate-spin
+[animation-duration:6s]
+[animation-direction:reverse]
+"
+>
+O
+</span>
 
-                onMouseMove={moveButton}
 
-                onMouseLeave={resetButton}
 
-                onClick={() =>
-                  setActive(!active)
-                }
+<span>mati</span>
 
 
-                className={`
-                absolute
 
-                -top-14
-                left-1/2
-                -translate-x-1/2
+<span className="relative">
 
-                w-14
-                h-14
 
-                rounded-full
+<motion.button
 
-                flex
-                items-center
-                justify-center
+style={{
+x,
+y
+}}
 
-                overflow-hidden
+onMouseMove={moveButton}
 
-                text-white
+onMouseLeave={resetButton}
 
-                shadow-xl
+onClick={()=>setActive(!active)}
 
-                hover:scale-110
 
-                transition
+className={`
+absolute
 
+-top-14
 
-                ${
-                  active
-                  ? "bg-red-900"
-                  : "bg-black"
-                }
+left-1/2
 
-                `}
-              >
+-translate-x-1/2
 
 
+w-14
+h-14
 
-                {/* liquid hover */}
-                <div
-                  className="
-                  absolute
-                  inset-0
 
-                  rounded-full
+rounded-full
 
-                  bg-white/30
 
-                  scale-0
+flex
+items-center
+justify-center
 
-                  hover:scale-[2]
 
-                  transition-transform
+text-white
 
-                  duration-500
-                  "
-                />
+shadow-xl
 
 
+${active?"bg-red-900":"bg-black"}
 
-                <Power
-                  size={28}
-                  className="
-                  relative
-                  z-10
-                  "
-                />
+`}
 
+>
 
-              </motion.button>
+<Power size={28}/>
 
+</motion.button>
 
 
 
+<span
+className={
+active
+?
+"text-red-700 transition"
+:
+"text-black transition"
+}
+>
 
+on
 
-              <span
+</span>
 
-                className={`
-                transition-all
-                duration-700
 
+</span>
 
-                ${
-                  active
-                  ?
-                  "text-red-700"
-                  :
-                  "text-black"
-                }
 
-                `}
-              >
 
-                ON
+</h1>
 
-              </span>
 
 
 
-            </span>
 
 
-          </h1>
+<p
 
+className={`
+${bricolage.className}
 
+mt-8
 
+text-center
 
+text-xl
 
+text-gray-600
+`}
+>
 
+Turn your automation ON.
+Close deals while you sleep.
 
-          <p
-            className={`
-            ${bricolage.className}
+</p>
 
-            mt-8
 
-            text-center
 
-            text-xl
-            md:text-2xl
+</div>
 
-            text-gray-600
-            `}
-          >
 
-            Turn your automation ON.
-            Close deals while you sleep.
 
-          </p>
 
 
 
-        </div>
 
+{/* VIDEO */}
+<motion.div
 
+style={{
+width,
+height,
+borderRadius:radius
+}}
 
 
+className="
+absolute
 
+bottom-[-150px]
 
-        {/* VIDEO */}
-        <motion.div
+z-20
 
-          style={{
-            width,
-            height,
-            borderRadius: radius,
-          }}
+overflow-hidden
 
-          className="
-          absolute
+bg-black
 
-          bottom-[-150px]
+shadow-2xl
+"
+>
 
-          z-20
 
-          overflow-hidden
+<video
 
-          bg-black
+src="/demo.mp4"
 
-          shadow-2xl
-          "
-        >
+autoPlay
 
+muted
 
-          <video
+loop
 
-            src="/demo.mp4"
+playsInline
 
-            autoPlay
+className="
+w-full
+h-full
 
-            muted
+object-cover
+"
 
-            loop
+/>
 
-            playsInline
 
 
-            className="
-            w-full
-            h-full
-            object-cover
-            "
+</motion.div>
 
-          />
 
 
+</div>
 
-        </motion.div>
 
 
+</section>
 
 
-      </div>
 
 
-    </section>
 
-  );
+
+
+
+
+{/* TEXT SECTION AFTER VIDEO */}
+<section
+
+className="
+min-h-screen
+
+bg-[#f8fafc]
+
+flex
+
+items-center
+
+px-8
+
+md:px-24
+"
+>
+
+
+
+<div>
+
+
+<h2
+
+className={`
+${bricolage.className}
+
+text-5xl
+
+md:text-8xl
+
+font-normal
+
+tracking-[-0.06em]
+
+leading-[0.95]
+
+text-black
+`}
+>
+
+
+We design automations
+<br/>
+
+that move businesses
+<br/>
+
+without moving people.
+
+
+</h2>
+
+
+
+
+
+
+<p
+
+className="
+mt-10
+
+max-w-2xl
+
+text-xl
+
+leading-relaxed
+
+text-black/50
+"
+>
+
+</p>
+
+
+
+</div>
+
+
+</section>
+
+
+</>
+
+)
+
 }

@@ -51,7 +51,7 @@ export default function Footer() {
           "
         >
 
-          MOTOMATION
+          motomation
 
         </h1>
 
