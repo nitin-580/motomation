@@ -54,6 +54,9 @@ bg-[#f8fafc]
 
 px-6
 py-28
+
+border-b
+border-black/10
 "
 >
 

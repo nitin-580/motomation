@@ -71,6 +71,9 @@ px-8
 md:px-24
 
 py-32
+
+border-b
+border-black/10
 "
 >
 

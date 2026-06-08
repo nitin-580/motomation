@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { Bricolage_Grotesque } from "next/font/google";
-import { Power } from "lucide-react";
+import Link from "next/link";
 
 import {
   motion,
   useScroll,
   useTransform,
-  useMotionValue,
-  useSpring,
 } from "framer-motion";
 
 
@@ -19,110 +17,35 @@ const bricolage = Bricolage_Grotesque({
 });
 
 
-// premium colors
-const colors=[
-"#8B5CF6",
-"#6366F1",
-"#06B6D4",
-"#14B8A6",
-"#F43F5E",
-"#F59E0B"
-];
 
+function GridBackground(){
 
-
-function LivingGrid({active}:{active:boolean}){
-
-
-const cells=Array.from({length:1800});
-
-
-return(
+return (
 
 <div
 className="
 absolute
 inset-0
-grid
-grid-cols-[repeat(60,1fr)]
 z-0
+bg-[#f8fafc]
+overflow-hidden
 "
 >
 
-
-{cells.map((_,i)=>(
-
-
-<motion.div
-
-key={i}
-
-
-animate={
-active
-?
-{
-
-backgroundColor:
-colors[
-Math.floor(Math.random()*colors.length)
-],
-
-boxShadow:[
-"0px 0px 0px transparent",
-"0px 0px 25px rgba(255,255,255,.9)",
-"0px 0px 0px transparent"
-],
-
-scale:[
-1,
-1.35,
-1
-],
-
-x:[
-0,
-Math.random()*8-4,
-0
-],
-
-y:[
-0,
-Math.random()*8-4,
-0
-]
-
-}
-
-:
-
-{
-backgroundColor:"#f8fafc",
-boxShadow:"0 0 0 transparent",
-scale:1,
-x:0,
-y:0
-}
-
-}
-
-
-transition={{
-duration:1.2,
-delay:Math.random()*0.8,
-ease:"easeInOut"
-}}
-
-
+<div
 className="
-border
-border-slate-200/70
+absolute
+inset-0
+
+bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)]
+
+bg-[size:20px_30px]
+
+[mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_60%,transparent_100%)]
+
+[-webkit-mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_60%,transparent_100%)]
 "
 />
-
-
-))}
-
 
 </div>
 
@@ -139,11 +62,7 @@ border-slate-200/70
 export default function Hero(){
 
 
-const [active,setActive]=useState(false);
-
-
 const ref=useRef(null);
-
 
 
 const {scrollYProgress}=useScroll({
@@ -170,79 +89,26 @@ scrollYProgress,
 const radius=useTransform(
 scrollYProgress,
 [0,1],
-["40px","0px"]
+["36px","0px"]
 );
 
 
 
 
 
-const mouseX=useMotionValue(0);
-const mouseY=useMotionValue(0);
-
-
-const x=useSpring(mouseX,{
-stiffness:180,
-damping:12
-});
-
-
-const y=useSpring(mouseY,{
-stiffness:180,
-damping:12
-});
-
-
-
-
-function moveButton(
-e:React.MouseEvent<HTMLButtonElement>
-){
-
-const rect=e.currentTarget.getBoundingClientRect();
-
-
-mouseX.set(
-(e.clientX-rect.left-rect.width/2)*0.5
-);
-
-
-mouseY.set(
-(e.clientY-rect.top-rect.height/2)*0.5
-);
-
-}
-
-
-
-function activateSystem(){
-
-setActive(true);
-
-setTimeout(()=>{
-setActive(false);
-},3000)
-
-}
-
-
-
-
-
-
-
-return(
+return (
 
 <>
 
 
 <section
 ref={ref}
-
 className="
 relative
 h-[220vh]
 bg-[#f8fafc]
+border-b
+border-black/10
 "
 >
 
@@ -260,15 +126,12 @@ justify-center
 >
 
 
-
-
-<LivingGrid active={active}/>
-
+<GridBackground />
 
 
 
 
-
+{/* HERO CONTENT */}
 
 <div
 className="
@@ -276,14 +139,13 @@ absolute
 top-[18%]
 z-10
 w-full
+px-6
 "
 >
 
 
 
-{/* LOGO */}
 <h1
-
 className={`
 ${bricolage.className}
 
@@ -295,139 +157,17 @@ tracking-[-0.09em]
 
 leading-none
 
-flex
-justify-center
-items-center
+text-center
+
+text-black
 
 select-none
-
-transition-all
-duration-700
-
-
-${
-active
-?
-"text-white/30 backdrop-blur-xl drop-shadow-[0_10px_40px_rgba(255,255,255,.8)]"
-:
-"text-black"
-}
-
 `}
 >
 
-
-<span>m</span>
-
-
-
-<span className="
-animate-spin
-[animation-duration:6s]
-">
-O
-</span>
-
-
-
-<span>t</span>
-
-
-<span className="
-animate-spin
-[animation-duration:6s]
-[animation-direction:reverse]
-">
-O
-</span>
-
-
-
-<span>mati</span>
-
-
-
-<span className="relative">
-
-
-<motion.button
-
-style={{x,y}}
-
-onMouseMove={moveButton}
-
-onMouseLeave={()=>{
-mouseX.set(0);
-mouseY.set(0);
-}}
-
-onClick={activateSystem}
-
-
-className={`
-absolute
-
--top-14
-left-1/2
--translate-x-1/2
-
-w-14
-h-14
-
-rounded-full
-
-flex
-items-center
-justify-center
-
-text-white
-
-transition-all
-
-
-${
-active
-?
-"bg-white/20 backdrop-blur-xl shadow-[0_0_60px_white]"
-:
-"bg-black"
-}
-
-`}
->
-
-
-<Power size={28}/>
-
-
-</motion.button>
-
-
-
-
-<span
-className={
-active
-?
-"text-white/50"
-:
-"text-black"
-}
->
-
-on
-
-</span>
-
-
-
-</span>
-
-
-
+motomation
 
 </h1>
-
 
 
 
@@ -439,26 +179,103 @@ ${bricolage.className}
 
 mt-8
 
+max-w-2xl
+
+mx-auto
+
 text-center
 
 text-xl
+md:text-2xl
 
-transition
+leading-relaxed
 
-${
-active
-?
-"text-white"
-:
-"text-gray-600"
-}
+text-neutral-600
 `}
 >
 
-Turn your automation ON.
-Close deals while you sleep.
+We build intelligent systems,
+automations and software that scale
+business operations.
 
 </p>
+
+
+
+
+
+<div
+className="
+flex
+justify-center
+gap-5
+mt-10
+"
+>
+
+
+<Link
+
+href="/contact"
+
+className={`
+${bricolage.className}
+
+px-8
+py-4
+
+bg-black
+
+text-white
+
+font-bold
+
+text-sm
+
+hover:bg-neutral-800
+
+transition
+`}
+>
+
+Start Project
+
+</Link>
+
+
+
+<a
+
+href="#work"
+
+className={`
+${bricolage.className}
+
+px-8
+py-4
+
+border
+border-black/20
+
+text-black
+
+font-bold
+
+text-sm
+
+hover:bg-black/5
+
+transition
+`}
+>
+
+View Work
+
+</a>
+
+
+
+</div>
 
 
 
@@ -469,8 +286,7 @@ Close deals while you sleep.
 
 
 
-
-
+{/* VIDEO SCROLL */}
 
 <motion.div
 
@@ -482,10 +298,15 @@ borderRadius:radius
 
 className="
 absolute
+
 bottom-[-150px]
+
 z-20
+
 overflow-hidden
+
 bg-black
+
 shadow-2xl
 "
 >
@@ -505,11 +326,11 @@ w-full
 h-full
 object-cover
 "
-
 />
 
 
 </motion.div>
+
 
 
 
@@ -527,15 +348,25 @@ object-cover
 
 
 
+{/* SECOND SECTION */}
+
 <section
 
 className="
 min-h-screen
+
 bg-[#f8fafc]
+
 flex
+
 items-center
+
 px-8
+
 md:px-24
+
+border-b
+border-black/10
 "
 >
 
@@ -558,13 +389,16 @@ text-black
 `}
 >
 
-We design automations
+We design systems
 <br/>
-that move businesses
+
+that replace repetitive work
 <br/>
-without moving people.
+
+with intelligent automation.
 
 </h2>
+
 
 
 </section>

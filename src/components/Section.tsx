@@ -47,6 +47,8 @@ flex
 items-center
 justify-center
 p-8
+border-b
+border-black/10
 ">
 
 

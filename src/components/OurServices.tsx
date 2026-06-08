@@ -61,6 +61,9 @@ px-6
 md:px-20
 
 py-32
+
+border-b
+border-black/10
 "
 >
 

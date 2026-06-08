@@ -3,404 +3,307 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bricolage_Grotesque } from "next/font/google";
-
+import Link from "next/link";
 
 const bricolage = Bricolage_Grotesque({
-  subsets:["latin"],
-  weight:["400","500","600","700","800"]
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
+const menu: any = {
+  Work: {
+    title: "Selected work.",
+    items: ["AI Systems", "Web Apps", "Automation"],
+  },
 
-const menu:any = {
+  Services: {
+    title: "What we build.",
+    items: ["Agents", "Workflows", "Software"],
+  },
 
-Work:{
-title:"Selected work.",
-items:["AI Systems","Web Apps","Automation"]
-},
-
-Services:{
-title:"What we build.",
-items:["Agents","Workflows","Software"]
-},
-
-About:{
-title:"Small team.",
-items:["Fast","Creative","Reliable"]
-}
-
+  About: {
+    title: "Small team.",
+    items: ["Fast", "Creative", "Reliable"],
+  },
 };
 
+export default function Navbar() {
+  const [active, setActive] = useState<string | null>(null);
+
+  return (
+    <div onMouseLeave={() => setActive(null)}>
+
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{
+          y: -40,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.6,
+          ease: "easeOut",
+        }}
+        className={`
+          ${bricolage.className}
+
+          fixed
+          top-0
+          left-0
+
+          w-full
+          h-[76px]
+
+          flex
+          items-center
+          justify-between
+
+          z-50
+
+          bg-white
+          text-black
+
+          border-b
+          border-neutral-200
+
+          px-8
+          md:px-16
+        `}
+      >
+
+        {/* LOGO */}
+        <Link
+          href="/"
+          className="
+            text-2xl
+            font-bold
+            tracking-[-0.05em]
+            hover:opacity-70
+            transition
+          "
+        >
+          Motomation
+        </Link>
+
+
+
+        {/* LINKS */}
+        <div
+          className="
+            hidden
+            md:flex
+
+            gap-14
+
+            text-[15px]
+            font-medium
+            text-neutral-600
+          "
+        >
+          {Object.keys(menu).map((item) => (
+            <span
+              key={item}
+              onMouseEnter={() => setActive(item)}
+              className="
+                cursor-pointer
+
+                hover:text-black
+
+                transition
+                duration-200
+              "
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+
+
+
+        {/* CTA */}
+        <Link
+          href="/free-review"
+          onClick={() => setActive(null)}
+          className="
+            px-5
+            py-2.5
 
-export default function Navbar(){
+            bg-black
+            text-white
 
+            text-sm
+            font-semibold
 
-const [active,setActive]=useState<string|null>(null);
+            hover:bg-neutral-800
 
+            transition
+            duration-300
+          "
+        >
+          Get a Free Review
+        </Link>
 
 
-return(
+      </motion.nav>
 
-<div
-onMouseLeave={()=>setActive(null)}
->
 
 
-<motion.nav
+      {/* DROPDOWN */}
+      <AnimatePresence>
 
-initial={{
-y:-80,
-opacity:0
-}}
+        {active && (
 
-animate={{
-y:0,
-opacity:1
-}}
+          <motion.div
+            initial={{
+              opacity:0,
+              y:-15,
+              height:0,
+            }}
 
-transition={{
-duration:.7
-}}
+            animate={{
+              opacity:1,
+              y:0,
+              height:280,
+            }}
 
+            exit={{
+              opacity:0,
+              y:-15,
+              height:0,
+            }}
 
-className={`
-${bricolage.className}
+            transition={{
+              duration:0.3,
+              ease:"easeInOut",
+            }}
 
-fixed
+            className="
+              fixed
+              top-[76px]
+              left-0
 
-top-8
-left-1/2
--translate-x-1/2
+              w-full
 
-w-[90%]
-max-w-[1500px]
+              bg-white
 
-flex
-items-center
-justify-between
+              border-b
+              border-neutral-200
 
-z-50
+              z-40
 
-text-black
-`}
->
+              overflow-hidden
+            "
+          >
 
+            <div
+              className="
+                max-w-[1400px]
+                mx-auto
 
+                h-full
 
+                px-8
+                md:px-16
 
-{/* LOGO */}
-<div
-className="
-text-xl
+                flex
+                items-center
+                justify-between
+              "
+            >
 
-font-extrabold
 
-tracking-tight
-"
->
+              {/* LEFT */}
+              <div>
 
-Motomation
+                <p
+                  className="
+                    text-xs
 
-</div>
+                    uppercase
+                    tracking-[0.25em]
 
+                    text-neutral-400
 
+                    mb-5
+                  "
+                >
+                  {active}
+                </p>
 
 
+                <h2
+                  className={`
+                    ${bricolage.className}
 
+                    text-5xl
 
-{/* LINKS */}
+                    font-semibold
 
-<div
+                    tracking-[-0.04em]
 
-className="
-hidden
-md:flex
+                    text-black
+                  `}
+                >
+                  {menu[active].title}
+                </h2>
 
-gap-16
+              </div>
 
-text-[15px]
 
-font-semibold
-"
->
 
+              {/* RIGHT ITEMS */}
+              <div
+                className="
+                  flex
+                  flex-col
+                  gap-5
+                "
+              >
 
-{Object.keys(menu).map((item)=>(
+                {menu[active].items.map(
+                  (item:string)=>(
 
+                    <p
+                      key={item}
+                      className={`
+                        ${bricolage.className}
 
-<span
+                        text-2xl
 
-key={item}
+                        font-medium
 
-onMouseEnter={()=>setActive(item)}
+                        tracking-[-0.04em]
 
-className="
-cursor-pointer
+                        text-neutral-500
 
-hover:opacity-50
+                        hover:text-black
 
-transition
-"
+                        cursor-pointer
 
->
+                        transition
+                      `}
+                    >
+                      {item}
+                    </p>
 
-{item}
+                  )
+                )}
 
-</span>
+              </div>
 
 
-))}
+            </div>
 
 
-</div>
+          </motion.div>
 
+        )}
 
+      </AnimatePresence>
 
-
-
-
-
-
-<button
-
-className="
-px-7
-py-3
-
-rounded-full
-
-bg-black
-
-text-white
-
-text-sm
-
-font-semibold
-
-
-hover:scale-105
-
-transition
-"
->
-
-Start Project
-
-</button>
-
-
-
-
-</motion.nav>
-
-
-
-
-
-
-
-
-
-{/* APPLE MENU */}
-
-<AnimatePresence>
-
-
-{
-active &&
-
-
-<motion.div
-
-initial={{
-opacity:0,
-y:-20,
-height:0
-}}
-
-animate={{
-opacity:1,
-y:0,
-height:330
-}}
-
-exit={{
-opacity:0,
-y:-20,
-height:0
-}}
-
-
-transition={{
-duration:.35,
-ease:"easeInOut"
-}}
-
-
-className="
-fixed
-
-top-0
-
-left-0
-
-w-full
-
-bg-[#f8fafc]/95
-
-backdrop-blur-xl
-
-z-40
-
-overflow-hidden
-"
-
->
-
-
-
-
-<div
-
-className="
-pt-36
-
-max-w-[1500px]
-
-mx-auto
-
-px-20
-
-flex
-
-justify-between
-
-items-end
-"
->
-
-
-
-
-<div>
-
-
-<p
-
-className="
-text-black/40
-
-mb-5
-
-uppercase
-
-tracking-[0.3em]
-
-text-xs
-"
-
->
-
-{active}
-
-</p>
-
-
-
-
-<h2
-
-className={`
-${bricolage.className}
-
-text-7xl
-
-font-medium
-
-tracking-[-0.08em]
-
-leading-none
-
-text-black
-`}
->
-
-
-{menu[active].title}
-
-
-</h2>
-
-
-</div>
-
-
-
-
-
-
-
-
-<div
-
-className="
-flex
-
-gap-16
-"
-
->
-
-
-{menu[active].items.map(
-(i:string)=>(
-
-
-<p
-
-key={i}
-
-className={`
-${bricolage.className}
-
-text-3xl
-
-tracking-[-0.05em]
-
-text-black/60
-`}
->
-
-{i}
-
-</p>
-
-
-
-)
-
-)}
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-</motion.div>
-
-}
-
-</AnimatePresence>
-
-
-
-
-</div>
-
-)
-
+    </div>
+  );
 }

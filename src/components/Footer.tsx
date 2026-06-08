@@ -1,6 +1,7 @@
 "use client";
 
 import { Bricolage_Grotesque } from "next/font/google";
+import Link from "next/link";
 
 
 const bricolage = Bricolage_Grotesque({
@@ -93,10 +94,10 @@ export default function Footer() {
 
             <ul className="space-y-3 text-black/50">
 
-              <li>About</li>
-              <li>Work</li>
-              <li>Careers</li>
-              <li>Contact</li>
+              <li><Link href="/" className="hover:text-black transition">About</Link></li>
+              <li><Link href="/" className="hover:text-black transition">Work</Link></li>
+              <li><Link href="/careers" className="hover:text-black transition">Careers</Link></li>
+              <li><Link href="/contact" className="hover:text-black transition">Contact</Link></li>
 
             </ul>
 
@@ -173,10 +174,10 @@ export default function Footer() {
 
             <ul className="space-y-3 text-black/50">
 
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Cookie Policy</li>
-              <li>Security</li>
+              <li><Link href="/privacy-policy" className="hover:text-black transition">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service" className="hover:text-black transition">Terms of Service</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-black transition">Cookie Policy</Link></li>
+              <li><Link href="/security" className="hover:text-black transition">Security</Link></li>
 
             </ul>
 

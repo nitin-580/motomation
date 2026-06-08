@@ -61,6 +61,9 @@ overflow-hidden
 bg-[#F7D84B]
 
 py-28
+
+border-b
+border-black/10
 "
 >
 

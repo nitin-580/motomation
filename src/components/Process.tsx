@@ -79,6 +79,9 @@ bg-[#f8fafc]
 py-32
 
 overflow-hidden
+
+border-b
+border-black/10
 "
 >
 

@@ -37,6 +37,8 @@ className="
 bg-[#f8fafc]
 py-20
 overflow-hidden
+border-b
+border-black/10
 "
 >
 

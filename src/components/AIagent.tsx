@@ -55,6 +55,9 @@ overflow-hidden
 px-8
 
 py-32
+
+border-b
+border-white/10
 "
 >
 
