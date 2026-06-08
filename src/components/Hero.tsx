@@ -9,6 +9,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import HighlightSection from "./HighlightSection";
 
 
 const bricolage = Bricolage_Grotesque({
@@ -349,60 +350,7 @@ object-cover
 
 
 {/* SECOND SECTION */}
-
-<section
-
-className="
-min-h-screen
-
-bg-[#f8fafc]
-
-flex
-
-items-center
-
-px-8
-
-md:px-24
-
-border-b
-border-black/10
-"
->
-
-
-<h2
-
-className={`
-${bricolage.className}
-
-text-5xl
-md:text-8xl
-
-font-normal
-
-tracking-[-0.06em]
-
-leading-[0.95]
-
-text-black
-`}
->
-
-We design systems
-<br/>
-
-that replace repetitive work
-<br/>
-
-with intelligent automation.
-
-</h2>
-
-
-
-</section>
-
+<HighlightSection />
 
 
 </>
